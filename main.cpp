@@ -15,9 +15,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		{1,0,0,0,0,0,0,0,0,0,1},
 		{1,0,0,0,0,0,0,0,0,0,1},
 		{1,0,0,0,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,0,0,0,1},
-		{1,0,0,0,0,0,0,0,0,0,1},
+		{1,0,0,0,1,0,1,0,0,0,1},
+		{1,0,0,0,0,1,0,0,0,0,1},
+		{1,0,0,0,1,0,1,0,0,0,1},
 		{1,0,0,0,0,0,0,0,0,0,1},
 		{1,0,0,0,0,0,0,0,0,0,1},
 		{1,0,0,0,0,0,0,0,0,0,1},
@@ -35,6 +35,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	int moovA = 0;
 	int moovS = 0;
 	int moovD = 0;
+
+	int timer = 10;
+	int timerON = 0;
+
+	int moovAI = 0;
+
+	int playerposX = 0;
+	int playerposY = 0;
+	int goalposX = 0;
+	int goalposy = 0;
 
 	// キー入力結果を受け取る箱
 	char keys[256] = {0};
@@ -54,13 +64,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 
 		//移動
-		if (keys[DIK_W]) { moovW = 1; }
-		if (keys[DIK_A]) { moovA = 1; }
-		if (keys[DIK_S]) { moovS = 1; }
-		if (keys[DIK_D]) { moovD = 1; }
+		if (keys[DIK_W]) { moovW = 1; timerON = 1; }
+		if (keys[DIK_A]) { moovA = 1; timerON = 1; }
+		if (keys[DIK_S]) { moovS = 1; timerON = 1; }
+		if (keys[DIK_D]) { moovD = 1; timerON = 1; }
+		if (keys[DIK_SPACE]) { moovAI = 1; }
+
+		if (timerON == 1) { timer--; }
+		if (timer <= 0) { timerON = 0; timer = 10; }
 
 
-		if (moovW == 1) {
+		if (moovW == 1 && timerON == 0) {
 			for (int i = 0; i < 15; i++) {
 				for (int j = 0; j < 11; j++) {
 					if (map[i][j] == 2 && map[i - 1][j] != 1) {
@@ -70,7 +84,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				}
 			}
 		}
-		if (moovA == 1) {
+		if (moovA == 1 && timerON == 0) {
 			for (int i = 0; i < 15; i++) {
 				for (int j = 0; j < 11; j++) {
 					if (map[i][j] == 2 && map[i][j - 1] != 1) {
@@ -80,7 +94,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				}
 			}
 		}
-		if (moovS == 1) {
+		if (moovS == 1 && timerON == 0) {
 			for (int i = 0; i < 15; i++) {
 				for (int j = 0; j < 11; j++) {
 					if (map[i][j] == 2 && map[i + 1][j] != 1) {
@@ -90,7 +104,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				}
 			}
 		}
-		if (moovD == 1) {
+		if (moovD == 1 && timerON == 0) {
 			for (int i = 0; i < 15; i++) {
 				for (int j = 0; j < 11; j++) {
 					if (map[i][j] == 2 && map[i][j + 1] != 1) {
@@ -101,6 +115,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 		}
 
+		//ポジション
+		for (int i = 0; i < 15; i++) {
+			for (int j = 0; j < 11; j++) {
+				if (map[i][j] == 2) { playerposX = j; playerposY = i; }
+				if (map[i][j] == 3) { goalposX = j; goalposy = i; }
+			}
+		}
+
+		//移動AI
+		if (moovAI == 1) {
+
+		}
 
 
 		///
@@ -121,6 +147,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 		}
 
+		//デバッグ
+		Novice::ScreenPrintf(0, 0, "timer %d", timer);
+		Novice::ScreenPrintf(0, 20, "posX %d", playerposX);
+		Novice::ScreenPrintf(0, 40, "posY %d", playerposY);
 
 		///
 		/// ↑描画処理ここまで
