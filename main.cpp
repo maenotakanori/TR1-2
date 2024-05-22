@@ -80,6 +80,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					if (map[i][j] == 2 && map[i - 1][j] != 1) {
 						map[i - 1][j] = 2; map[i][j] = 0;
 						moovW = 0;
+						break;
 					}
 				}
 			}
@@ -90,6 +91,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					if (map[i][j] == 2 && map[i][j - 1] != 1) {
 						map[i][j - 1] = 2; map[i][j] = 0;
 						moovA = 0;
+						break;
 					}
 				}
 			}
@@ -100,6 +102,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					if (map[i][j] == 2 && map[i + 1][j] != 1) {
 						map[i + 1][j] = 2; map[i][j] = 0;
 						moovS = 0;
+						break;
 					}
 				}
 			}
@@ -110,6 +113,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					if (map[i][j] == 2 && map[i][j + 1] != 1) {
 						map[i][j + 1] = 2; map[i][j] = 0;
 						moovD = 0;
+						break;
 					}
 				}
 			}
